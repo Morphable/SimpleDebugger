@@ -4,7 +4,7 @@ namespace Morphable;
 
 use \Morphable\SimpleDebugger\DebugItem;
 use \Morphable\SimpleDebugger\Log;
-use \Morphable\SimpleDebugger\Exception\ItemNotFound;
+use \Morphable\SimpleDebugger\Metadata;
 
 class SimpleDebugger
 {
@@ -23,6 +23,8 @@ class SimpleDebugger
      */
     private $items;
 
+    private $timer;
+
     /**
      * @param array items
      * @return self
@@ -31,6 +33,7 @@ class SimpleDebugger
     {
         $this->items = $items;
         $this->disabled = false;
+        $this->metadata = new Metadata();
         self::$instance = $this;
     }
 
@@ -76,7 +79,9 @@ class SimpleDebugger
             return $this;
         }
 
-        $item = new DebugItem($key, $data);
+        $breakpoint = $this->metadata->add($key)->get($key);
+
+        $item = new DebugItem($key, $data, $breakpoint);
         $this->items[$key] = $item;
 
         return $this;

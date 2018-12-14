@@ -20,15 +20,21 @@ class DebugItem
     private $timestamp;
 
     /**
+     * @var array
+     */
+    private $metadata;
+
+    /**
      * @param string key
      * @param mixed data
+     * @param array metadata
      * @return self
      */
-    public function __construct(string $key, $data)
+    public function __construct(string $key, $data, $metadata = null)
     {
         $this->key = $key;
         $this->data = $data;
-        $this->timestamp = strtotime('now');
+        $this->metadata = $metadata;
     }
 
     /**
@@ -47,6 +53,10 @@ class DebugItem
         return $this->data;
     }
 
+    /**
+     * @var mixed data
+     * @return self
+     */
     public function updateData($data)
     {
         $this->data = $data;
@@ -55,10 +65,10 @@ class DebugItem
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getTimestamp()
+    public function getMetadata()
     {
-        return $this->timestamp;
+        return $this->metadata;
     }
 }

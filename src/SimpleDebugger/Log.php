@@ -19,28 +19,6 @@ class Log
     }
 
     /**
-     * Format the data to XML
-     *
-     * @return string
-     */
-    public function asXml()
-    {
-        $s = "";
-        $s .= "<SimpleDebugger>";
-        $s .= "<DebugItems>";
-        foreach ($this->items as $item) {
-            $key = $item->getKey();
-            $data = $item->getData();
-            $timestamp = $item->getTimestamp();
-            $s .= "<DebugItem Key=\"{$key}\" Timestamp=\"{$timestamp}\">".htmlspecialchars(print_r($data, true))."</DebugItem>";
-        }
-        $s .= "</DebugItems>";
-        $s .= "</SimpleDebugger>";
-
-        return $s;
-    }
-
-    /**
      * Format the data to JSON
      *
      * @return string
@@ -60,8 +38,8 @@ class Log
         $arr = [];
         foreach ($this->items as $item) {
             $arr[$item->getKey()] = [
-                'timestamp' => $item->getTimestamp(),
-                'data' => $item->getData()
+                'data' => $item->getData(),
+                'metadata' => $item->getMetadata()
             ];
         }
         return $arr;

@@ -12,7 +12,6 @@ $debugger
 
 $log = $debugger->getLog();
 $json = $log->asJson();
-$xml = $log->asXml();
 $array = $log->asArray();
 
 print_r($array);
