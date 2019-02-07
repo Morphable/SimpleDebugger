@@ -19,16 +19,6 @@ class Log
     }
 
     /**
-     * Format the data to JSON
-     *
-     * @return string
-     */
-    public function asJson()
-    {
-        return json_encode($this->asArray());
-    }
-
-    /**
      * @return array
      */
     public function getItems()
