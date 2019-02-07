@@ -29,23 +29,6 @@ class Log
     }
 
     /**
-     * Format the data to array
-     *
-     * @return array
-     */
-    public function asArray()
-    {
-        $arr = [];
-        foreach ($this->items as $item) {
-            $arr[$item->getKey()] = [
-                'data' => $item->getData(),
-                'metadata' => $item->getMetadata()
-            ];
-        }
-        return $arr;
-    }
-
-    /**
      * @return array
      */
     public function getItems()

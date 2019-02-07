@@ -4,54 +4,37 @@ namespace Morphable\SimpleDebugger;
 
 class Metadata
 {
-    /**
-     * @var array
-     */
-    private $breakpoints = [];
+    private $time;
+
+    private $timestamp;
+
+    private $breakpoint;
+
+    private $memory;
 
     /**
      * @return self
      */
-    public function __construct()
+    public function __construct($time)
     {
-        $this->add("start_timer");
+        $this->time = $time;
+        $this->timestamp = date('Y-m-d H:i:s');
+        $this->breakpoint = microtime(true) - $this->time;
+        $this->memory = memory_get_usage(false);
     }
 
-    /**
-     * @param string name
-     * @return self
-     */
-    public function add(string $name)
+    public function getTimestamp()
     {
-        $microtime = microtime(true);
-        $memoryUsage = memory_get_usage(false);
-        $timestampt = date('Y-m-d H:i:s');
-
-        $this->breakpoints[$name] = [
-            'microtime' => $microtime,
-            'microtimeDifference' => ($name === 'start_timer'
-                ? $microtime
-                : $microtime - $this->breakpoints['start_timer']['microtimeDifference']),
-            'memoryUsage' => ($name === 'start_timer'
-                ? $memoryUsage
-                : $memoryUsage - $this->breakpoints['start_timer']['memoryUsage']),
-            'timestamp' => strtotime('now')
-        ];
-
-        return $this;
+        return $this->timestamp;
     }
 
-    public function get(string $name)
+    public function getBreakpoint()
     {
-        return $this->breakpoints[$name];
+        return $this->breakpoint;
     }
 
-    /**
-     * @return array
-     */
-    public function getBreakpoints()
+    public function getMemory()
     {
-        $this->add("end_timer");
-        return $this->breakpoints;
+        return $this->memory;
     }
 }

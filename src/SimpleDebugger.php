@@ -23,6 +23,9 @@ class SimpleDebugger
      */
     private $items;
 
+    /**
+     * @var int
+     */
     private $timer;
 
     /**
@@ -33,7 +36,7 @@ class SimpleDebugger
     {
         $this->items = $items;
         $this->disabled = false;
-        $this->metadata = new Metadata();
+        $this->startTimer();
         self::$instance = $this;
     }
 
@@ -44,7 +47,7 @@ class SimpleDebugger
      */
     public function disable()
     {
-        $this->disalbed = true;
+        $this->disabled = true;
 
         return $this;
     }
@@ -54,9 +57,20 @@ class SimpleDebugger
      *
      * @return \Morphable\SimpleDebugger
      */
-    public function getInstance()
+    public static function getInstance()
     {
         return self::$instance;
+    }
+
+    /**
+     * Start or restart the timer
+     *
+     * @return self
+     */
+    public function startTimer()
+    {
+        $this->timer = microtime(true);
+        return $this;
     }
 
     /**
@@ -79,45 +93,11 @@ class SimpleDebugger
             return $this;
         }
 
-        $breakpoint = $this->metadata->add($key)->get($key);
-
-        $item = new DebugItem($key, $data, $breakpoint);
-        $this->items[$key] = $item;
-
-        return $this;
-    }
-
-    /**
-     * @param string key
-     * @return self
-     */
-    public function delete($key)
-    {
-        if ($this->disabled) {
-            return $this;
+        if ($this->timer == null) {
+            $this->startTimer();
         }
 
-        if (isset($this->items[$key])) {
-            unset($this->items[$key]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string key
-     * @param mixed data
-     * @return self
-     */
-    public function update($key, $data)
-    {
-        if ($this->disabled) {
-            return $this;
-        }
-
-        if (isset($this->items[$key])) {
-            $this->items[$key]->updateData($data);
-        }
+        $this->items[$key] = new DebugItem($key, $data, new Metadata($this->timer));
 
         return $this;
     }

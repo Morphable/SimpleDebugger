@@ -6,6 +6,7 @@ use \Morphable\SimpleDebugger;
 
 $debugger = new SimpleDebugger();
 $debugger
+    ->disable()
     ->add("check connection", false)
     ->add("initiate something", true)
     ->add("do something else", true);

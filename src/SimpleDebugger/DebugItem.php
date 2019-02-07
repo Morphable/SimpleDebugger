@@ -15,11 +15,6 @@ class DebugItem
     private $data;
 
     /**
-     * @var string
-     */
-    private $timestamp;
-
-    /**
      * @var array
      */
     private $metadata;
@@ -51,17 +46,6 @@ class DebugItem
     public function getData()
     {
         return $this->data;
-    }
-
-    /**
-     * @var mixed data
-     * @return self
-     */
-    public function updateData($data)
-    {
-        $this->data = $data;
-
-        return $this;
     }
 
     /**
